@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Todo - REST
+{% endblock title %}
+
+{% block content %}
+<main class="container">
+    <div class="d-flex justify-content-center" style="margin-top: 50px;">
+        <div class="col-md-7 col-sm-10">
+            <div class="card p-4">
+                <div class="mb-3">
+                    <button id="newTodoBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#todoModal">
+                        Novo Todo
+                    </button>
+                </div>
+                <ul class="nav nav-tabs mb-2">
+                    {% if active_tab == 'todo' %}
+                    <li class="nav-item">
+                        <a id="tabTodo" href="/?tab=todo" class="nav-link tab-link active"
+                            aria-current="page">Pendentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="tabDone" href="/?tab=done" class="nav-link tab-link">Concluídos</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a id="tabTodo" href="/?tab=todo" class="nav-link tab-link">Pendentes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="tabDone" href="/?tab=done" class="nav-link tab-link active"
+                            aria-current="page">Concluídos</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul id="todoList" class="list-group" data-url="{% url 'todo-list' %}">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="todoModal" tabindex="-1" aria-labelledby="todoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="todoModalForm" action="" method="">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="todoModalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-2">
+                            <label class="form-label" for="{{ todo_form.titulo.id_for_label }}">Título</label>
+                            {{ todo_form.titulo }}
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label" for="{{ todo_form.descricao.id_for_label }}">Descrição</label>
+                            {{ todo_form.descricao }}
+                        </div>
+                        <div class="form-check">
+                            {{ todo_form.concluido }}
+                            <label class="form-check-label"
+                                for="{{ todo_form.concluido.id_for_label }}">Concluído</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+
+{% block footer %}
+<script src="{% static 'assets/js/todo.js' %}" type="text/javascript"></script>
+{% endblock footer %}
